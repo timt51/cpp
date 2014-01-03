@@ -1,0 +1,91 @@
+This network service simulates a text-based terminal application. 
+The general purpose of the application is to act as a "news server" 
+or text file service. 
+These are two types of users: regular and administrator. 
+Administrators can add users and execute back-end system commands. 
+Users can view and contribute articles (aka text files). 
+Assume the application runs on Linux and is compiled with gcc.
+
+#!/bin/bash
+mkdir "./users"
+mkdir "./articles"
+echo "adding a default example article as example.txt"
+echo "This is an example article" > ./articles/example.txt
+echo "adding a default user as guest"
+echo "guest" > ./users/guest.txt
+
+input
+int argc
+char *argv[]
+->>>>>>>>mainLoop accepts logf, sock 
+->>>>>>>>handeConnection logf,clientfd
+			user NULL
+			pass NULL
+			char ptr1,ptr2 => buffer, argbuf
+			len = readSock(sock, buffer, sizeof(buffer))
+authenticate FIXME, should check user is admin first
+->system() used to evaluate a command, exploitation by metacharaccters
+use of system() line 324 can be exploited by metacharacters
+system(LISTCOMMAND) how to exploit bug..?
+strcpy, strcat in readArticle not safe...
+comment says buffer size (100) but implemented 1000 line 176-179
+
+
+
+
+
+
+
+
+
+
+
+
+possibilities:
+
+writeSock, readSock - memory corruption, buffer overflow
+writeArticle - strcpy, strncat, fopen(takes input), fputs?, fclose?
+	-uses writeSock
+		-writeSock(sock, FILENOTAVAIL, sizeof(FILENOTAVAIL));
+		-writeSock(sock, BEGINFILE, sizeof(BEGINFILE));
+	-uses readSock in while loop
+		-readSock(sock, buf, sizeof(buf)-1)
+	-arithmetic in while loop, for loop
+readArticle - logData?, strcpy, strcat, fopen(takes input), fgets?, fclose?
+	-uses writeSock
+		-writeSock(sock, FILENOTAVAIL, sizeof(FILENOTAVAIL))
+		-writeSock(sock, buf, strlen(buf))
+-listArticles
+	-LINE 196 system(LISTCOMMAND)
+	-fget
+	-writeSock
+-command
+	-logData
+	-LINE 216 system(&action[1])!!
+-addUser
+	-char buf[1024]
+	-strchr(:)!
+	-logData
+	-snprintf arithmetic
+-adminFunctions
+	-char action[1024]
+	-memset?
+-userFunctions
+	-sizeof
+-authenticate
+	-returns 1, 2, 3
+-handleConnection
+	-comments
+	-memcpy?
+-mainLoop
+-spawnhandler
+-setupSock
+- main
+-logData
+
+
+send ->
+socket = where the info is going
+*buf = a buffer containing the info to be moved to socket
+len = length of *buf
+flag = how the call is made
