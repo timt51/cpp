@@ -13,7 +13,7 @@ fn main() {
 	let a = 100000i64;
 	// let mut b = ~[0i64];
 
-	for num in range(a, a + 10000i64) {
+	for num in range(a, a + 100000i64) {
 		let c = is_prime(num*num - num + 37);
 			// let mut already_counted = false;
 			// for x in b.iter() {

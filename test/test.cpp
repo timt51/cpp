@@ -39,8 +39,8 @@ int main()
 	std::cout << "10 times what you typed: " << longnumber * 10 << std::endl;
 	std::cout << is_prime(longnumber* longnumber - longnumber + 37);
 	*/
-	unsigned long long a[100000];
-	unsigned long long n = 0;
+	unsigned long long a[10000];
+	unsigned long long n = 1000000;
 	std::generate(std::begin(a), std::end(a), [&] {
 		return n++;
 	});
@@ -55,7 +55,7 @@ int main()
 	concurrency::parallel_for_each(std::begin(a), std::end(a), [&](unsigned long long n) {
 		unsigned long long c = is_prime(n * n - n + 37);
 		if (c > 1000) {
-			std::cout << c << "\n";
+			printf("%llu\n",c);
 		}
 	});
 
